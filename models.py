@@ -15,7 +15,7 @@ class Course(Base):
     __tablename__ = "courses"
 
     id = Column(Integer, primary_key=True, index=True)
-    course_name = Column(String, unique=True, nullable=False)
+    course_name = Column(String(255), unique=True, nullable=False)
 
 
 class Topic(Base):
@@ -23,8 +23,8 @@ class Topic(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     course_id = Column(Integer, ForeignKey("courses.id"))
-    topic_name = Column(String, nullable=False)
-    youtube_url = Column(String, nullable=False)
+    topic_name = Column(String(255), nullable=False)
+    youtube_url = Column(String(255), nullable=False)
 
 
 class Progress(Base):
