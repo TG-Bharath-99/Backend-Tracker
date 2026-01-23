@@ -6,7 +6,7 @@ app = FastAPI()
 
 Base.metadata.create_all(bind=engine)
 
-app.include_router(auth_router)
+app.include_router(auth_router,prefix="/auth",tags=["Auth"])
 
 @app.get("/")
 def index():
