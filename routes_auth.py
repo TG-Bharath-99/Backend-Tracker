@@ -1,13 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from fastapi.security import OAuth2PasswordRequestForm
+
 from database import SessionLocal
 from models import User
-from schema import UserSignup, UserLogin
+from schema import UserSignup
 from auth import hash_password, verify_password, create_access_token
-from fastapi.security import OAuth2PasswordRequestForm
-from dependencies import get_current_user
 
 router = APIRouter()
+
 
 def get_db():
     db = SessionLocal()
@@ -16,18 +17,24 @@ def get_db():
     finally:
         db.close()
 
+
 @router.post("/signup")
 def signup(user: UserSignup, db: Session = Depends(get_db)):
-    if db.query(User).filter(User.email == user.email).first():
+    existing_user = db.query(User).filter(User.email == user.email).first()
+    if existing_user:
         raise HTTPException(status_code=400, detail="Email already exists")
+
+    hashed_pwd = hash_password(user.password)
 
     new_user = User(
         full_name=user.full_name,
         email=user.email,
-        password=hash_password(user.password)
+        password=hashed_pwd
     )
+
     db.add(new_user)
     db.commit()
+
     return {"message": "Signup successful"}
 
 
@@ -47,13 +54,3 @@ def login(
         "access_token": token,
         "token_type": "bearer"
     }
-
-@router.get("/me")
-def get_me(current_user: User = Depends(get_current_user)):
-    return {
-        "id": current_user.id,
-        "email": current_user.email,
-        "full_name": current_user.full_name
-    }
-
-
