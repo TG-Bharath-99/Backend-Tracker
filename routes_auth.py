@@ -20,22 +20,21 @@ def get_db():
 
 @router.post("/signup")
 def signup(user: UserSignup, db: Session = Depends(get_db)):
-    existing_user = db.query(User).filter(User.email == user.email).first()
-    if existing_user:
+    if db.query(User).filter(User.email == user.email).first():
         raise HTTPException(status_code=400, detail="Email already exists")
-
-    hashed_pwd = hash_password(user.password)
 
     new_user = User(
         full_name=user.full_name,
         email=user.email,
-        password=hashed_pwd
+        password=hash_password(user.password)  # HASH ONLY HERE
     )
 
     db.add(new_user)
     db.commit()
+    db.refresh(new_user)
 
     return {"message": "Signup successful"}
+
 
 
 @router.post("/login")
