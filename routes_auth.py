@@ -20,13 +20,16 @@ def get_db():
 
 @router.post("/signup")
 def signup(user: UserSignup, db: Session = Depends(get_db)):
-    if db.query(User).filter(User.email == user.email).first():
+    existing_user = db.query(User).filter(User.email == user.email).first()
+    if existing_user:
         raise HTTPException(status_code=400, detail="Email already exists")
+
+    hashed_password = hash_password(user.password)
 
     new_user = User(
         full_name=user.full_name,
         email=user.email,
-        password=hash_password(user.password)  # HASH ONLY HERE
+        password=hashed_password
     )
 
     db.add(new_user)
