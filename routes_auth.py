@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from fastapi.security import OAuth2PasswordRequestForm
-
 from database import SessionLocal
 from models import User
 from schema import UserSignup
 from auth import hash_password, verify_password, create_access_token
+from fastapi.security import OAuth2PasswordRequestForm
+
 
 router = APIRouter()
 
@@ -53,3 +53,4 @@ def login(
         "access_token": token,
         "token_type": "bearer"
     }
+
