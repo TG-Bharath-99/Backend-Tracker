@@ -15,6 +15,29 @@ def get_db():
     finally:
         db.close()
 
+@router.post("/add")
+def add_topic(
+    course_id: int,
+    topic_name: str,
+    youtube_url: str,
+    db: Session = Depends(get_db)
+):
+    topic = Topic(
+        course_id=course_id,
+        topic_name=topic_name,
+        youtube_url=youtube_url
+    )
+    db.add(topic)
+    db.commit()
+    db.refresh(topic)
+
+    return {
+        "id": topic.id,
+        "topic_name": topic.topic_name,
+        "youtube_url": topic.youtube_url
+    }
+
+
 
 # ---------------- LIST TOPICS FOR USER'S SELECTED COURSE ----------------
 @router.get("/")
