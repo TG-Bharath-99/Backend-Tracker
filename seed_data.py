@@ -1,14 +1,21 @@
 from database import SessionLocal
 from models import Course, Topic
 
+print("🔥 SEED FILE LOADED")
+
+
 def seed_data():
+    print("🔥 SEED FUNCTION CALLED")
     db = SessionLocal()
 
-    # 🔒 Prevent duplicate seeding
-    if db.query(Course).count() > 0:
-        print("Seed data already present")
+    count = db.query(Course).count()
+    print("🔥 COURSE COUNT:", count)
+
+    if count > 0:
+        print("⚠️ Already seeded")
         db.close()
         return
+
 
     # ================= COURSES =================
     python = Course(course_name="Python")
