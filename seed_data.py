@@ -1,20 +1,15 @@
 from database import SessionLocal
 from models import Course, Topic
 
-print("🔥 SEED FILE LOADED")
-
 
 def seed_data():
-    print("🔥 SEED FUNCTION CALLED")
     db = SessionLocal()
 
-    count = db.query(Course).count()
-    print("🔥 COURSE COUNT:", count)
+    print("FORSE RESET DB")
 
-    if count > 0:
-        print("⚠️ Already seeded")
-        db.close()
-        return
+    db.query(Topic).delete()
+    db.query(Course).delete()
+    db.commit()
 
 
     # ================= COURSES =================
