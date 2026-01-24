@@ -1,22 +1,16 @@
 from pydantic import BaseModel, EmailStr
-from pydantic import StringConstraints
-from typing import Optional, Annotated
+from typing import Optional
 
-
-PasswordStr = Annotated[
-    str,
-    StringConstraints(min_length=6, max_length=50)
-]
 
 class UserSignup(BaseModel):
     full_name: str
     email: EmailStr
-    password: str
+    password: str   # plain password (debug mode)
+
 
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
-
 
 
 class UserResponse(BaseModel):
