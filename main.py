@@ -8,14 +8,14 @@ from routes_topics import router as topics_router
 
 app = FastAPI()
 
-# ✅ SINGLE startup event (ONLY ONE)
+# 🚀 SINGLE startup event (VERY IMPORTANT)
 @app.on_event("startup")
 def startup_event():
     print("🚀 Starting backend...")
     Base.metadata.create_all(bind=engine)
     seed_data()
 
-# ✅ INCLUDE ALL ROUTERS
+# ✅ Include routers
 app.include_router(auth_router, prefix="/auth", tags=["Auth"])
 app.include_router(courses_router, prefix="/courses", tags=["Courses"])
 app.include_router(topics_router, prefix="/topics", tags=["Topics"])

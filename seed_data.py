@@ -1,16 +1,15 @@
 from database import SessionLocal
 from models import Course, Topic
 
-
 def seed_data():
     db = SessionLocal()
 
-    print("FORSE RESET DB")
+    print("🔥 FORCE RESET DB")
 
+    # ❗ DEVELOPMENT ONLY (clears old data)
     db.query(Topic).delete()
     db.query(Course).delete()
     db.commit()
-
 
     # ================= COURSES =================
     python = Course(course_name="Python")
@@ -63,7 +62,7 @@ def seed_data():
         Topic(course_id=dsa.id, topic_name="Sorting Algorithms", youtube_url="https://youtu.be/ZZuD6iUe3Pc"),
     ]
 
-    # ================= MACHINE LEARNING TOPICS =================
+    # ================= ML TOPICS =================
     ml_topics = [
         Topic(course_id=ml.id, topic_name="Introduction to Machine Learning", youtube_url="https://youtu.be/GwIo3gDZCVQ"),
         Topic(course_id=ml.id, topic_name="Types of Machine Learning", youtube_url="https://youtu.be/ukzFI9rgwfU"),
