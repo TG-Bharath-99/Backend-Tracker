@@ -8,6 +8,7 @@ from dependencies import get_current_user
 router = APIRouter(prefix="/topics", tags=["Topics"])
 
 
+# ---------------- DB DEP ----------------
 def get_db():
     db = SessionLocal()
     try:
@@ -15,6 +16,24 @@ def get_db():
     finally:
         db.close()
 
+
+# =========================================================
+# ✅ PUBLIC API (NO LOGIN) → FRONTEND USES THIS
+# URL: /topics/?course_id=1
+# =========================================================
+@router.get("/")
+def get_topics(course_id: int, db: Session = Depends(get_db)):
+    topics = db.query(Topic).filter(Topic.course_id == course_id).all()
+
+    if not topics:
+        raise HTTPException(status_code=404, detail="No topics found")
+
+    return topics
+
+
+# =========================================================
+# ADD TOPIC (ADMIN / TEST)
+# =========================================================
 @router.post("/add")
 def add_topic(
     course_id: int,
@@ -22,51 +41,44 @@ def add_topic(
     youtube_url: str,
     db: Session = Depends(get_db)
 ):
+    course = db.query(Course).filter(Course.id == course_id).first()
+    if not course:
+        raise HTTPException(status_code=404, detail="Course not found")
+
     topic = Topic(
         course_id=course_id,
         topic_name=topic_name,
         youtube_url=youtube_url
     )
+
     db.add(topic)
     db.commit()
     db.refresh(topic)
 
-    return {
-        "id": topic.id,
-        "topic_name": topic.topic_name,
-        "youtube_url": topic.youtube_url
-    }
+    return topic
 
 
-
-# ---------------- LIST TOPICS FOR USER'S SELECTED COURSE ----------------
-@router.get("/")
-def list_topics(
+# =========================================================
+# 🔒 USER-SPECIFIC TOPICS (FOR LATER)
+# =========================================================
+@router.get("/user")
+def list_topics_for_user(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
     if current_user.selected_course_id is None:
-        raise HTTPException(
-            status_code=400,
-            detail="Please select a course first"
-        )
+        raise HTTPException(status_code=400, detail="Select course first")
 
-    topics = (
-        db.query(Topic)
-        .filter(Topic.course_id == current_user.selected_course_id)
-        .all()
-    )
+    topics = db.query(Topic).filter(
+        Topic.course_id == current_user.selected_course_id
+    ).all()
 
     result = []
     for topic in topics:
-        progress = (
-            db.query(Progress)
-            .filter(
-                Progress.user_id == current_user.id,
-                Progress.topic_id == topic.id
-            )
-            .first()
-        )
+        progress = db.query(Progress).filter(
+            Progress.user_id == current_user.id,
+            Progress.topic_id == topic.id
+        ).first()
 
         result.append({
             "topic_id": topic.id,
@@ -78,7 +90,9 @@ def list_topics(
     return result
 
 
-# ---------------- MARK TOPIC COMPLETED / UNCOMPLETED ----------------
+# =========================================================
+# MARK TOPIC COMPLETE
+# =========================================================
 @router.post("/mark/{topic_id}")
 def mark_topic(
     topic_id: int,
@@ -90,14 +104,10 @@ def mark_topic(
     if not topic:
         raise HTTPException(status_code=404, detail="Topic not found")
 
-    progress = (
-        db.query(Progress)
-        .filter(
-            Progress.user_id == current_user.id,
-            Progress.topic_id == topic_id
-        )
-        .first()
-    )
+    progress = db.query(Progress).filter(
+        Progress.user_id == current_user.id,
+        Progress.topic_id == topic_id
+    ).first()
 
     if not progress:
         progress = Progress(
@@ -111,8 +121,4 @@ def mark_topic(
 
     db.commit()
 
-    return {
-        "message": "Progress updated",
-        "topic_id": topic_id,
-        "completed": completed
-    }
+    return {"message": "Progress updated"}
