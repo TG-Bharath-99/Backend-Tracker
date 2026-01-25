@@ -12,7 +12,7 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://jovial-empanada-d7efc6.netlify.app"
+        "*"
     ],
     allow_credentials=False,
     allow_methods=["*"],
