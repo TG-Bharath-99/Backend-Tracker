@@ -8,7 +8,6 @@ from dependencies import get_current_user
 router = APIRouter(prefix="/topics", tags=["Topics"])
 
 
-# ---------------- DB DEP ----------------
 def get_db():
     db = SessionLocal()
     try:
@@ -17,23 +16,12 @@ def get_db():
         db.close()
 
 
-# =========================================================
-# ✅ PUBLIC API (NO LOGIN) → FRONTEND USES THIS
-# URL: /topics/?course_id=1
-# =========================================================
 @router.get("/")
 def get_topics(course_id: int, db: Session = Depends(get_db)):
     topics = db.query(Topic).filter(Topic.course_id == course_id).all()
-
-    if not topics:
-        raise HTTPException(status_code=404, detail="No topics found")
-
     return topics
 
 
-# =========================================================
-# ADD TOPIC (ADMIN / TEST)
-# =========================================================
 @router.post("/add")
 def add_topic(
     course_id: int,
@@ -58,9 +46,6 @@ def add_topic(
     return topic
 
 
-# =========================================================
-# 🔒 USER-SPECIFIC TOPICS (FOR LATER)
-# =========================================================
 @router.get("/user")
 def list_topics_for_user(
     current_user: User = Depends(get_current_user),
@@ -90,9 +75,6 @@ def list_topics_for_user(
     return result
 
 
-# =========================================================
-# MARK TOPIC COMPLETE
-# =========================================================
 @router.post("/mark/{topic_id}")
 def mark_topic(
     topic_id: int,
@@ -121,4 +103,8 @@ def mark_topic(
 
     db.commit()
 
-    return {"message": "Progress updated"}
+    return {
+        "message": "Progress updated",
+        "topic_id": topic_id,
+        "completed": completed
+    }
