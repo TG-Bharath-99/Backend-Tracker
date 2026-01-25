@@ -9,7 +9,6 @@ from routes_topics import router as topics_router
 
 app = FastAPI()
 
-# ✅ CORS (required for React)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -18,16 +17,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ✅ Startup
 @app.on_event("startup")
 def startup_event():
     Base.metadata.create_all(bind=engine)
     seed_data()
 
-# ✅ Routers
 app.include_router(auth_router, prefix="/auth", tags=["Auth"])
 app.include_router(courses_router, prefix="/courses", tags=["Courses"])
-app.include_router(topics_router, prefix="/topics", tags=["Topics"])
+app.include_router(topics_router)   # ✅ NO extra prefix
 
 @app.get("/")
 def root():
