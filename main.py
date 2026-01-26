@@ -7,8 +7,15 @@ from seed_data import seed_data
 from routes_auth import router as auth_router
 from routes_courses import router as courses_router
 from routes_topics import router as topics_router
+from starlette.middleware.proxy_headers import ProxyHeadersMiddleware
+
 
 app = FastAPI()
+app.add_middleware(
+    ProxyHeadersMiddleware,
+    trusted_hosts="*"
+)
+
 
 @app.on_event("startup")
 def startup_event():
