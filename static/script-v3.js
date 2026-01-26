@@ -1,11 +1,9 @@
-const API = "";
-
 document.addEventListener("DOMContentLoaded", () => {
   loadCourses();
 });
 
 function loadCourses() {
-  fetch(`${API}/courses`)
+  fetch("/courses")
     .then(res => res.json())
     .then(data => {
       const container = document.getElementById("courses");
