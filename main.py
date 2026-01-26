@@ -6,8 +6,11 @@ from seed_data import seed_data
 from routes_auth import router as auth_router
 from routes_courses import router as courses_router
 from routes_topics import router as topics_router
+from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 
 app = FastAPI()
+
+app.add_middleware(HTTPSRedirectMiddleware)
 
 app.add_middleware(
     CORSMiddleware,
