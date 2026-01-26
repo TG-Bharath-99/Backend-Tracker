@@ -14,13 +14,11 @@ def get_db():
         db.close()
 
 
-# -------- LIST ALL COURSES --------
 @router.get("/")
 def list_courses(db: Session = Depends(get_db)):
     return db.query(Course).all()
 
 
-# -------- SELECT COURSE --------
 @router.post("/select")
 def select_course(user_id: int, course_id: int, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.id == user_id).first()

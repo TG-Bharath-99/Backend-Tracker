@@ -12,7 +12,7 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "*"
+        "https://tg-bharath-99.github.io"
     ],
     allow_credentials=False,
     allow_methods=["*"],
