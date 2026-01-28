@@ -1,76 +1,90 @@
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("✅ Script loaded successfully");
+  console.log("📍 Current location:", window.location.href);
+  loadCourses();
+});
+
 const BASE_URL = "https://backend-tracker-production.up.railway.app";
 
-const loginForm = document.getElementById("loginForm");
-const signupForm = document.getElementById("signupForm");
-const message = document.getElementById("message");
-const tabs = document.querySelectorAll(".tab");
+function loadCourses() {
+  console.log("🔄 Fetching courses...");
 
-function showLogin() {
-  loginForm.classList.remove("hidden");
-  signupForm.classList.add("hidden");
-  tabs[0].classList.add("active");
-  tabs[1].classList.remove("active");
-  message.innerText = "";
+  fetch(`${BASE_URL}/courses`)
+    .then(res => {
+      console.log("📥 Courses response:", res.status);
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then(data => {
+      console.log("✅ Courses received:", data);
+
+      const coursesContainer = document.getElementById("courses");
+      coursesContainer.innerHTML = "";
+
+      if (!data || data.length === 0) {
+        coursesContainer.innerHTML = "<p>No courses available</p>";
+        return;
+      }
+
+      data.forEach(course => {
+        const div = document.createElement("div");
+        div.className = "course";
+        div.textContent = course.course_name;
+
+        
+        div.onclick = () => loadTopics(course.id, course.course_name);
+
+        coursesContainer.appendChild(div);
+      });
+    })
+    .catch(error => {
+      console.error("❌ Error loading courses:", error);
+      alert("Failed to load courses: " + error.message);
+    });
 }
 
-function showSignup() {
-  signupForm.classList.remove("hidden");
-  loginForm.classList.add("hidden");
-  tabs[1].classList.add("active");
-  tabs[0].classList.remove("active");
-  message.innerText = "";
+
+function loadTopics(courseId, courseName) {
+  console.log(`📚 Loading topics for ${courseName} (ID: ${courseId})`);
+
+  fetch(`${BASE_URL}/topics?course_id=${courseId}`)
+    .then(res => {
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then(data => {
+      console.log("✅ Topics received:", data);
+
+      const topicsContainer = document.getElementById("topics");
+      topicsContainer.innerHTML = `
+        <h3>${courseName} Topics</h3>
+        <hr />
+      `;
+
+      if (!data || data.length === 0) {
+        topicsContainer.innerHTML += "<p>No topics found</p>";
+        return;
+      }
+
+      data.forEach(topic => {
+        const div = document.createElement("div");
+        div.className = "topic";
+
+        div.innerHTML = `
+          <h4>${topic.topic_name}</h4>
+          <a href="${topic.youtube_url}" target="_blank">
+            ▶ Watch Video
+          </a>
+        `;
+
+        topicsContainer.appendChild(div);
+      });
+    })
+    .catch(error => {
+      alert("Failed to load topics: " + error.message);
+    });
 }
-
-loginForm.addEventListener("submit", e => {
-  e.preventDefault();
-
-  const email = document.getElementById("loginEmail").value;
-  const password = document.getElementById("loginPassword").value;
-
-  fetch(`${BASE_URL}/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email, password })
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.access_token) {
-      localStorage.setItem("token", data.access_token);
-      message.style.color = "green";
-      message.innerText = "Login successful ✅";
-      // redirect later
-      // window.location.href = "dashboard.html";
-    } else {
-      message.style.color = "red";
-      message.innerText = data.detail || "Login failed ❌";
-    }
-  })
-  .catch(() => {
-    message.style.color = "red";
-    message.innerText = "Server error";
-  });
-});
-
-signupForm.addEventListener("submit", e => {
-  e.preventDefault();
-
-  const name = document.getElementById("signupName").value;
-  const email = document.getElementById("signupEmail").value;
-  const password = document.getElementById("signupPassword").value;
-
-  fetch(`${BASE_URL}/auth/signup`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ name, email, password })
-  })
-  .then(res => res.json())
-  .then(data => {
-    message.style.color = "green";
-    message.innerText = "Account created 🎉 Please login";
-    showLogin();
-  })
-  .catch(() => {
-    message.style.color = "red";
-    message.innerText = "Signup failed ❌";
-  });
-});
