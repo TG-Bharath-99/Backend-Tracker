@@ -15,7 +15,6 @@ def get_db():
         db.close()
 
 
-# ---------------- SIGNUP ----------------
 @router.post("/signup")
 def signup(user: UserSignup, db: Session = Depends(get_db)):
     existing_user = db.query(User).filter(User.email == user.email).first()
@@ -37,7 +36,6 @@ def signup(user: UserSignup, db: Session = Depends(get_db)):
     return {"message": "Signup successful"}
 
 
-# ---------------- LOGIN ----------------
 @router.post("/login")
 def login(user: UserLogin, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.email == user.email).first()

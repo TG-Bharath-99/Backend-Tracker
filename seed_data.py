@@ -6,12 +6,10 @@ def seed_data():
 
     print("🔥 FORCE RESET DB")
 
-    # ❗ DEVELOPMENT ONLY (clears old data)
     db.query(Topic).delete()
     db.query(Course).delete()
     db.commit()
 
-    # ================= COURSES =================
     python = Course(course_name="Python")
     java = Course(course_name="Java")
     dsa = Course(course_name="DSA")
@@ -20,7 +18,6 @@ def seed_data():
     db.add_all([python, java, dsa, ml])
     db.commit()
 
-    # ================= PYTHON TOPICS =================
     python_topics = [
         Topic(course_id=python.id, topic_name="Introduction to Python", youtube_url="https://youtu.be/_uQrJ0TkZlc"),
         Topic(course_id=python.id, topic_name="Variables & Data Types", youtube_url="https://youtu.be/kqtD5dpn9C8"),
@@ -34,7 +31,6 @@ def seed_data():
         Topic(course_id=python.id, topic_name="File Handling", youtube_url="https://youtu.be/Uh2ebFW8OYM"),
     ]
 
-    # ================= JAVA TOPICS =================
     java_topics = [
         Topic(course_id=java.id, topic_name="Java Introduction", youtube_url="https://youtu.be/grEKMHGYyns"),
         Topic(course_id=java.id, topic_name="Variables & Data Types", youtube_url="https://youtu.be/GoXwIVyNvX0"),
@@ -48,7 +44,6 @@ def seed_data():
         Topic(course_id=java.id, topic_name="Exception Handling", youtube_url="https://youtu.be/1XAfapkBQjk"),
     ]
 
-    # ================= DSA TOPICS =================
     dsa_topics = [
         Topic(course_id=dsa.id, topic_name="Introduction to DSA", youtube_url="https://youtu.be/0IAPZzGSbME"),
         Topic(course_id=dsa.id, topic_name="Time & Space Complexity", youtube_url="https://youtu.be/mV3wrLBbuuE"),
@@ -62,7 +57,6 @@ def seed_data():
         Topic(course_id=dsa.id, topic_name="Sorting Algorithms", youtube_url="https://youtu.be/ZZuD6iUe3Pc"),
     ]
 
-    # ================= ML TOPICS =================
     ml_topics = [
         Topic(course_id=ml.id, topic_name="Introduction to Machine Learning", youtube_url="https://youtu.be/GwIo3gDZCVQ"),
         Topic(course_id=ml.id, topic_name="Types of Machine Learning", youtube_url="https://youtu.be/ukzFI9rgwfU"),
@@ -76,7 +70,6 @@ def seed_data():
         Topic(course_id=ml.id, topic_name="Introduction to Deep Learning", youtube_url="https://youtu.be/aircAruvnKk"),
     ]
 
-    # ================= INSERT ALL TOPICS =================
     db.add_all(
         python_topics +
         java_topics +
