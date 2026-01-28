@@ -11,32 +11,32 @@ function loadCourses() {
 
   fetch(`${BASE_URL}/courses`)
     .then(res => {
-      console.log("📥 Response received:", res.status);
+      console.log("📥 Courses response:", res.status);
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
       return res.json();
     })
     .then(data => {
-      console.log("✅ Data received:", data);
+      console.log("✅ Courses received:", data);
 
-      const container = document.getElementById("courses");
-      container.innerHTML = "";
+      const coursesContainer = document.getElementById("courses");
+      coursesContainer.innerHTML = "";
 
       if (!data || data.length === 0) {
-        container.innerHTML = "<p>No courses available</p>";
+        coursesContainer.innerHTML = "<p>No courses available</p>";
         return;
       }
 
       data.forEach(course => {
         const div = document.createElement("div");
         div.className = "course";
-        div.innerText = course.course_name;
+        div.textContent = course.course_name;
 
-        // 🔥 CHANGE: load topics instead of alert
+        
         div.onclick = () => loadTopics(course.id, course.course_name);
 
-        container.appendChild(div);
+        coursesContainer.appendChild(div);
       });
     })
     .catch(error => {
@@ -45,11 +45,13 @@ function loadCourses() {
     });
 }
 
+
 function loadTopics(courseId, courseName) {
   console.log(`📚 Loading topics for ${courseName} (ID: ${courseId})`);
 
   fetch(`${BASE_URL}/topics?course_id=${courseId}`)
     .then(res => {
+      console.log("📥 Topics response:", res.status);
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
@@ -59,7 +61,10 @@ function loadTopics(courseId, courseName) {
       console.log("✅ Topics received:", data);
 
       const topicsContainer = document.getElementById("topics");
-      topicsContainer.innerHTML = `<h3>${courseName} Topics</h3>`;
+      topicsContainer.innerHTML = `
+        <h3>${courseName} Topics</h3>
+        <hr />
+      `;
 
       if (!data || data.length === 0) {
         topicsContainer.innerHTML += "<p>No topics found</p>";
