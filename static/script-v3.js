@@ -8,7 +8,7 @@ function loadCourses() {
   console.log("🔄 Fetching courses...");
   
   // Use relative URL - this is the key fix!
-  fetch("backend-tracker-production.up.railway.app/courses")
+  fetch("https://backend-tracker-production.up.railway.app/courses")
     .then(res => {
       console.log("📥 Response received:", res.status);
       if (!res.ok) {
