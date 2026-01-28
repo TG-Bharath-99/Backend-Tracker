@@ -3,8 +3,7 @@ from sqlalchemy.orm import Session
 from database import SessionLocal
 from models import Course, User
 
-router = APIRouter(tags=["Courses"])  
-
+router = APIRouter()
 
 def get_db():
     db = SessionLocal()
@@ -14,7 +13,7 @@ def get_db():
         db.close()
 
 
-@router.get("/")
+@router.get("")
 def list_courses(db: Session = Depends(get_db)):
     return db.query(Course).all()
 

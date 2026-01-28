@@ -5,7 +5,7 @@ from typing import Optional
 class UserSignup(BaseModel):
     full_name: str
     email: EmailStr
-    password: str   # plain password (debug mode)
+    password: str
 
 
 class UserLogin(BaseModel):
@@ -18,3 +18,6 @@ class UserResponse(BaseModel):
     full_name: str
     email: EmailStr
     selected_course_id: Optional[int]
+    
+    class Config:
+        from_attributes = True

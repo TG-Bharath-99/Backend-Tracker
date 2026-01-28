@@ -5,8 +5,7 @@ from database import SessionLocal
 from models import Topic, Course, User, Progress
 from dependencies import get_current_user
 
-router = APIRouter(prefix="/topics", tags=["Topics"])
-
+router = APIRouter()
 
 def get_db():
     db = SessionLocal()
@@ -16,7 +15,7 @@ def get_db():
         db.close()
 
 
-@router.get("/")
+@router.get("")
 def get_topics(course_id: int, db: Session = Depends(get_db)):
     topics = db.query(Topic).filter(Topic.course_id == course_id).all()
     return topics
