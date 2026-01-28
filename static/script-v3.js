@@ -51,7 +51,6 @@ function loadTopics(courseId, courseName) {
 
   fetch(`${BASE_URL}/topics?course_id=${courseId}`)
     .then(res => {
-      console.log("📥 Topics response:", res.status);
       if (!res.ok) {
         throw new Error(`HTTP error! status: ${res.status}`);
       }
@@ -77,9 +76,8 @@ function loadTopics(courseId, courseName) {
 
         div.innerHTML = `
           <h4>${topic.topic_name}</h4>
-          <p>${topic.subtopic_name}</p>
-          <a href="${topic.resource_link}" target="_blank">
-            Open Resource
+          <a href="${topic.youtube_url}" target="_blank">
+            ▶ Watch Video
           </a>
         `;
 
@@ -87,7 +85,6 @@ function loadTopics(courseId, courseName) {
       });
     })
     .catch(error => {
-      console.error("❌ Error loading topics:", error);
       alert("Failed to load topics: " + error.message);
     });
 }
