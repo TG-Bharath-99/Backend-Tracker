@@ -14,7 +14,7 @@ async function handleSignup() {
 
   try {
     const res = await fetch(
-      "https://backend-tracker-production.up.railway.app/signup",
+      "https://backend-tracker-production.up.railway.app/auth/signup",
       {
         method: "POST",
         headers: {
