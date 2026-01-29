@@ -1,20 +1,18 @@
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("signup.js loaded");
+console.log("signup.js loaded");
 
-  const signupBtn = document.getElementById("signupBtn");
+async function handleSignup() {
+  console.log("signup button clicked");
 
-  signupBtn.addEventListener("click", async () => {
-    console.log("signup button clicked");
+  const full_name = document.getElementById("full_name").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-    const full_name = document.getElementById("full_name").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+  if (!full_name || !email || !password) {
+    alert("Fill all fields");
+    return;
+  }
 
-    if (!full_name || !email || !password) {
-      alert("Fill all fields");
-      return;
-    }
-
+  try {
     const res = await fetch(
       "https://backend-tracker-production.up.railway.app/signup",
       {
@@ -34,5 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(data);
 
     alert(res.ok ? "Signup successful" : "Signup failed");
-  });
-});
+  } catch (err) {
+    console.error(err);
+    alert("Server error");
+  }
+}
