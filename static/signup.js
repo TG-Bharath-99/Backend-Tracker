@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const res = await fetch(
-        "https://backend-tracker-production.up.railway.app/routes_auth/signup",
+        "https://backend-tracker-production.up.railway.app/signup",
         {
           method: "POST",
           headers: {
