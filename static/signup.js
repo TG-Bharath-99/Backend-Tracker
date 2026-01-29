@@ -1,3 +1,4 @@
+console.log("signup.js loaded");
 document.addEventListener("DOMContentLoaded", () => {
   const signupBtn = document.getElementById("signupBtn");
 
