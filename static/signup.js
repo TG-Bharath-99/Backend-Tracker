@@ -1,9 +1,10 @@
-console.log("signup.js loaded");
 document.addEventListener("DOMContentLoaded", () => {
+  console.log("signup.js loaded");
+
   const signupBtn = document.getElementById("signupBtn");
 
-  signupBtn.addEventListener("click", async (e) => {
-    e.preventDefault();
+  signupBtn.addEventListener("click", async () => {
+    console.log("signup button clicked");
 
     const full_name = document.getElementById("full_name").value;
     const email = document.getElementById("email").value;
@@ -14,32 +15,24 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    try {
-      const res = await fetch(
-        "https://backend-tracker-production.up.railway.app/signup",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            full_name: full_name,
-            email: email,
-            password: password
-          })
-        }
-      );
-
-      const data = await res.json();
-
-      if (res.ok) {
-        alert("Signup successful");
-      } else {
-        alert(data.detail || "Signup failed");
+    const res = await fetch(
+      "https://backend-tracker-production.up.railway.app/signup",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          full_name,
+          email,
+          password
+        })
       }
-    } catch (err) {
-      alert("Server error");
-      console.error(err);
-    }
+    );
+
+    const data = await res.json();
+    console.log(data);
+
+    alert(res.ok ? "Signup successful" : "Signup failed");
   });
 });
