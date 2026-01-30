@@ -1,40 +1,37 @@
 console.log("login.js loaded");
 
+const BASE_URL = "https://backend-tracker-production.up.railway.app";
+
 async function handleLogin() {
   const email = document.getElementById("login_email").value;
   const password = document.getElementById("login_password").value;
 
   if (!email || !password) {
-    alert("Fill all fields");
+    alert("Email & password required");
     return;
   }
 
-  const formData = new URLSearchParams();
-  formData.append("email", email);
-  formData.append("password", password);
-
   try {
-    const res = await fetch(
-      "https://backend-tracker-production.up.railway.app/auth/login",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: formData.toString()
-      }
-    );
+    const res = await fetch(`${BASE_URL}/auth/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password
+      })
+    });
 
     const data = await res.json();
-    console.log(data);
+    console.log("Login response:", data);
 
-    if (!res.ok) {
-      alert("Invalid credentials");
-      return;
+    if (res.ok) {
+      alert("Login successful");
+      window.location.href = "/static/dashboard.html";
+    } else {
+      alert(data.detail || "Wrong email or password");
     }
-
-    alert("Login successful");
-    window.location.href = "dashboard.html";
 
   } catch (err) {
     console.error(err);

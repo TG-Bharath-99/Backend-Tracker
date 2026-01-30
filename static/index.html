@@ -1,33 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
   <title>Login | Course Tracker</title>
-  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
 
 <div class="container">
-  <h2>Login</h2>
+  <div class="card">
+    <h2>Login</h2>
 
-  <div class="input-group">
-    <label>Email</label>
-    <input type="email" id="login_email" placeholder="Enter email">
+    <div class="input-group">
+      <label>Email</label>
+      <input type="email" id="login_email" placeholder="Enter email" />
+    </div>
+
+    <div class="input-group">
+      <label>Password</label>
+      <input type="password" id="login_password" placeholder="Enter password" />
+    </div>
+
+    <button class="btn" onclick="handleLogin()">Login</button>
+
+    <p class="login-text">
+      New user?
+      <a href="/static/signup.html">Create account</a>
+    </p>
   </div>
-
-  <div class="input-group">
-    <label>Password</label>
-    <input type="password" id="login_password" placeholder="Enter password">
-  </div>
-
-  <button class="btn" onclick="handleLogin()">Login</button>
-
-  <p class="login-text">
-    New user?
-    <a href="signup.html">Create account</a>
-  </p>
 </div>
 
 <script src="/static/login.js"></script>
-
 </body>
 </html>
