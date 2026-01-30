@@ -131,7 +131,7 @@ def seed_data():
         dsa_topics +
         ml_topics +
         cpp_topics +
-        web_topics
+        web_topics+motivations
     )
 
     db.commit()
