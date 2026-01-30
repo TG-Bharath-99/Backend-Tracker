@@ -14,8 +14,10 @@ def seed_data():
     java = Course(course_name="Java")
     dsa = Course(course_name="DSA")
     ml = Course(course_name="Machine Learning")
+    cpp = Course(course_name="C++")
+    web = Course(course_name="Web Development")
 
-    db.add_all([python, java, dsa, ml])
+    db.add_all([python, java, dsa, ml, cpp, web])
     db.commit()
 
     python_topics = [
@@ -70,11 +72,39 @@ def seed_data():
         Topic(course_id=ml.id, topic_name="Introduction to Deep Learning", youtube_url="https://youtu.be/aircAruvnKk"),
     ]
 
+    cpp_topics = [
+        Topic(course_id=cpp.id, topic_name="Introduction to C++", youtube_url="https://youtu.be/vLnPwxZdW4Y"),
+        Topic(course_id=cpp.id, topic_name="Data Types & Variables", youtube_url="https://youtu.be/ZzaPdXTrSb8"),
+        Topic(course_id=cpp.id, topic_name="Operators", youtube_url="https://youtu.be/FyN9Yy0xZ2U"),
+        Topic(course_id=cpp.id, topic_name="Control Statements", youtube_url="https://youtu.be/7dPdMtBX1d8"),
+        Topic(course_id=cpp.id, topic_name="Loops", youtube_url="https://youtu.be/bL-o2xBENY0"),
+        Topic(course_id=cpp.id, topic_name="Functions", youtube_url="https://youtu.be/ykM9H6p5HfE"),
+        Topic(course_id=cpp.id, topic_name="Pointers", youtube_url="https://youtu.be/DTxHyVn0ODg"),
+        Topic(course_id=cpp.id, topic_name="OOP in C++", youtube_url="https://youtu.be/wN0x9eZLix4"),
+        Topic(course_id=cpp.id, topic_name="STL Basics", youtube_url="https://youtu.be/g-1Cn3ccwXY"),
+        Topic(course_id=cpp.id, topic_name="File Handling", youtube_url="https://youtu.be/nhpA7ZxkXK0"),
+    ]
+
+    web_topics = [
+        Topic(course_id=web.id, topic_name="Introduction to Web Development", youtube_url="https://youtu.be/Q33KBiDriJY"),
+        Topic(course_id=web.id, topic_name="HTML Basics", youtube_url="https://youtu.be/pQN-pnXPaVg"),
+        Topic(course_id=web.id, topic_name="CSS Basics", youtube_url="https://youtu.be/yfoY53QXEnI"),
+        Topic(course_id=web.id, topic_name="JavaScript Basics", youtube_url="https://youtu.be/W6NZfCO5SIk"),
+        Topic(course_id=web.id, topic_name="DOM Manipulation", youtube_url="https://youtu.be/0ik6X4DJKCc"),
+        Topic(course_id=web.id, topic_name="Responsive Design", youtube_url="https://youtu.be/srvUrASNj0s"),
+        Topic(course_id=web.id, topic_name="Git & GitHub", youtube_url="https://youtu.be/RGOj5yH7evk"),
+        Topic(course_id=web.id, topic_name="REST APIs", youtube_url="https://youtu.be/Q-BpqyOT3a8"),
+        Topic(course_id=web.id, topic_name="Frontend vs Backend", youtube_url="https://youtu.be/XBu54nfzxAQ"),
+        Topic(course_id=web.id, topic_name="Deploying Web Apps", youtube_url="https://youtu.be/nhBVL41-_Cw"),
+    ]
+
     db.add_all(
         python_topics +
         java_topics +
         dsa_topics +
-        ml_topics
+        ml_topics +
+        cpp_topics +
+        web_topics
     )
 
     db.commit()
