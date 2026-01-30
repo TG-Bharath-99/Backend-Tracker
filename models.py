@@ -9,6 +9,14 @@ class User(Base):
     email = Column(String(255), unique=True, index=True, nullable=False)
     password = Column(String(255), nullable=False)
     selected_course_id = Column(Integer, nullable=True)
+    
+
+class Motivation(Base):
+    __tablename__ = "motivations"
+
+    id = Column(Integer, primary_key=True, index=True)
+    message = Column(String(255), nullable=False)
+
 
 class Course(Base):
     __tablename__ = "courses"

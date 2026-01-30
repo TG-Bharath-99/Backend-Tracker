@@ -88,3 +88,11 @@ function loadTopics(courseId, courseName) {
       alert("Failed to load topics: " + error.message);
     });
 }
+
+function showMotivation() {
+  fetch("/motivation/random")
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("motivation").innerText = data.message;
+    });
+}

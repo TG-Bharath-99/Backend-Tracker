@@ -1,5 +1,7 @@
 from database import SessionLocal
 from models import Course, Topic
+from models import Course, Topic, Motivation
+
 
 def seed_data():
     db = SessionLocal()

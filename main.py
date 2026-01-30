@@ -8,10 +8,10 @@ from seed_data import seed_data
 from routes_auth import router as auth_router
 from routes_courses import router as courses_router
 from routes_topics import router as topics_router
+from routes_motivation import router as motivation_router
 
 app = FastAPI()
 
-# Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -34,3 +34,4 @@ def serve_frontend():
 app.include_router(auth_router, prefix="/auth", tags=["Auth"])
 app.include_router(courses_router, prefix="/courses", tags=["Courses"])
 app.include_router(topics_router, prefix="/topics", tags=["Topics"])
+app.include_router(motivation_router,tags=["Motivation"])
