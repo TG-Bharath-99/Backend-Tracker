@@ -100,6 +100,31 @@ def seed_data():
         Topic(course_id=web.id, topic_name="Deploying Web Apps", youtube_url="https://youtu.be/nhBVL41-_Cw"),
     ]
 
+    motivations = [
+    Motivation(message="🔥 Great job! Keep going."),
+    Motivation(message="💪 Consistency beats talent."),
+    Motivation(message="🚀 One step closer to success."),
+    Motivation(message="👏 You are doing amazing."),
+    Motivation(message="📈 Progress, not perfection."),
+    Motivation(message="🏆 Hard work always pays off."),
+    Motivation(message="⏳ Every minute you study builds your future."),
+    Motivation(message="🧠 Discipline today = freedom tomorrow."),
+    Motivation(message="🚶‍♂️ Small steps every day lead to big wins."),
+    Motivation(message="🌱 You are growing, even if it feels slow."),
+    Motivation(message="⚡ Don’t stop now, you’re on a streak!"),
+    Motivation(message="📚 Knowledge compounds like interest."),
+    Motivation(message="🔥 Show up daily. Results will follow."),
+    Motivation(message="🎯 Focus. Finish. Repeat."),
+    Motivation(message="🏃‍♂️ Winners don’t quit, they adapt."),
+    Motivation(message="💡 You didn’t come this far to stop."),
+    Motivation(message="🛠️ Skills today, success tomorrow."),
+    Motivation(message="🚀 Your future self will thank you."),
+    Motivation(message="👊 One topic done. Momentum unlocked."),
+    Motivation(message="📌 Stay consistent, stay dangerous."),
+    Motivation(message="🌟 Excellence is a habit, not an act."),
+]
+
+
     db.add_all(
         python_topics +
         java_topics +
