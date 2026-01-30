@@ -4,8 +4,8 @@ async function handleSignup() {
   console.log("signup button clicked");
 
   const full_name = document.getElementById("full_name").value;
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  const email = document.getElementById("login_email").value;
+  const password = document.getElementById("login_password").value;
 
   if (!full_name || !email || !password) {
     alert("Fill all fields");
